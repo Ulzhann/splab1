@@ -1,7 +1,36 @@
 #! /bin/bash
+data=($(cut -f4,7 -d" " log.txt | grep "28/Oct/2006"  | cut -f2 -d" " | grep -v "-" | sort | uniq -c | sort -r | head -10)) 
 
-# run this script as "top10 log.txt"
 
-# here comes your solution
-# e.g.
-grep world $1
+size=($(cut -f4,7 -d" " log.txt | grep "28/Oct/2006"  | cut -f2 -d" " | grep -v "-" | sort | uniq -c | sort -r | head -10 | cut -c 1,2,3,4)) 
+
+for_size=0
+for ((i=1;i<10;i++));do
+for_size=$((for_size+size[i-1]))
+done
+
+
+
+for ((i=2;i<21;i+=2));
+do  
+	perc=$((data[i]*100/for_size));
+	echo ${data[i-1]} - ${data[i]} - ${perc} % ; done; 
+
+
+
+cut -f4,7 -d" " log.txt | grep "28/Oct/2006"  | cut -f2 -d" " | grep -v "-" | sort | uniq -c | sort -r | head -10 |awk '{print $2 , $1} {sum+=$1} {print $1*100/sum}'
+
+data=($(cut -f7 -d" " log.txt | cut -f2 -d" " | grep -v "-" | sort | uniq -c | sort -r | head -10 )) 
+
+
+size=($(cut -f7 -d" " log.txt | cut -f2 -d" " | grep -v "-" | sort | uniq -c | sort -r | head -10 | cut -c 1,2,3,4)) 
+
+for_size=0
+for ((i=1;i<10;i++));do
+for_size=$((for_size+size[i-1]))
+done
+
+for ((i=2;i<21;i+=2));
+do 
+    perc=$((data[i]*100/for_size));
+	echo ${data[i-1]}    ${data[i]}  ${perc} % ;done; 
